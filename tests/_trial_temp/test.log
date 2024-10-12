@@ -1,0 +1,5 @@
+2024-10-12 02:09:42+0200 [-] Log opened.
+2024-10-12 02:09:42+0200 [-] C:\Users\CYTech Student\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py:580: builtins.RuntimeWarning: TestResult has no addDuration method
+2024-10-12 02:09:43+0200 [-] TelnetConsole starting on 6023
+2024-10-12 02:09:43+0200 [-] (TCP Port 6023 Closed)
+2024-10-12 02:09:43+0200 [-] Main loop terminated.
