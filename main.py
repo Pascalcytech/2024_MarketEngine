@@ -24,6 +24,12 @@ def main():
     industry = "technology"  # Example industry, can be dynamic or based on user input
     logger.info(f"Discovering companies in the {industry} industry.")
     companies = discovery.discover_companies(industry)
+
+    # Check if any companies were discovered
+    if not companies:
+        logger.warning("No companies found. Exiting.")
+        return
+
     logger.info(f"Discovered {len(companies)} companies.")
 
     # Step 2: Web Crawling and Contact Method Discovery
@@ -39,24 +45,22 @@ def main():
         # Initialize web crawler
         crawler = WebCrawler(company_url)
         crawler_links = crawler.extract_links()
+        if not crawler_links:
+            logger.warning(f"No links found for {company_name}. Skipping.")
+            continue
+
         logger.info(f"Extracted {len(crawler_links)} links from {company_url}")
 
         # Recognize and extract contact methods (email or form)
         contact_methods = recognizer.recognize_methods(crawler_links)
-        if contact_methods.get('email'):
-            logger.info(f"Found email contact method for {company_name}: {contact_methods['email']}")
-        elif contact_methods.get('form'):
-            logger.info(f"Found contact form for {company_name}: {contact_methods['form']}")
-        else:
+        if not contact_methods.get('email') and not contact_methods.get('form'):
             logger.warning(f"No contact method found for {company_name}. Skipping.")
             continue
 
         # Step 3: Content Extraction and Message Personalization
         extractor = ContentExtractor(company_url)
         about_us_content = extractor.extract_about_us()
-        if about_us_content:
-            logger.info(f"Extracted content from 'About Us' page for {company_name}.")
-        else:
+        if not about_us_content:
             logger.warning(f"No content found for {company_name} 'About Us' page. Using default messaging.")
             about_us_content = "We are a company focused on driving innovation."
 
@@ -94,7 +98,6 @@ def main():
     tracker = EmailTracker(Config.SMTP_SERVER, Config.SMTP_PORT, Config.SENDER_EMAIL, Config.SENDER_PASSWORD)
     analyzer = ResponseAnalyzer()
 
-    # For demonstration, we track just one email (this could be extended to all sent emails)
     logger.info("Tracking email deliveries and responses.")
     for company in companies:
         if contact_methods.get('email'):
