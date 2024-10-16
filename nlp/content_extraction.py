@@ -37,5 +37,5 @@ class ContentExtractor:
 
 # Example usage
 if __name__ == "__main__":
-    extractor = ContentExtractor('https://example.com')
+    extractor = ContentExtractor('https://www.mobileye.com/')
     print(extractor.extract_about_us())

@@ -1,43 +1,36 @@
-# email_sender.py
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
 class EmailSender:
 
-    def __init__(self, smtp_server, smtp_port, sender_email, sender_password):
-        self.smtp_server = smtp_server
-        self.smtp_port = smtp_port
+    def __init__(self, sendgrid_api_key, sender_email):
+        self.sendgrid_api_key = sendgrid_api_key
         self.sender_email = sender_email
-        self.sender_password = sender_password
 
     def send_email(self, recipient_email, subject, body):
         try:
-            # Create the email
-            msg = MIMEMultipart()
-            msg['From'] = self.sender_email
-            msg['To'] = recipient_email
-            msg['Subject'] = subject
+            # Create the email using SendGrid's Mail object
+            message = Mail(
+                from_email=self.sender_email,
+                to_emails=recipient_email,
+                subject=subject,
+                plain_text_content=body
+            )
 
-            msg.attach(MIMEText(body, 'plain'))
+            # Send the email via SendGrid API
+            sg = SendGridAPIClient(self.sendgrid_api_key)
+            response = sg.send(message)
 
-            # Establish a connection with the SMTP server
-            server = smtplib.SMTP(self.smtp_server, self.smtp_port)
-            server.starttls()
-            server.login(self.sender_email, self.sender_password)
-
-            # Send the email
-            server.sendmail(self.sender_email, recipient_email, msg.as_string())
-            server.quit()
-            return f"Email sent to {recipient_email}"
+            # Return a success message
+            return f"Email sent to {recipient_email}, Status Code: {response.status_code}"
         except Exception as e:
             return f"Failed to send email: {str(e)}"
 
 
 # Example usage
 if __name__ == "__main__":
-    email_sender = EmailSender("smtp.gmail.com", 587, "your-email@example.com", "your-password")
-    result = email_sender.send_email("recipient@example.com", "Personalized Subject",
-                                     "This is a personalized email body.")
+    sendgrid_api_key = ""  # Replace with your SendGrid API key
+    email_sender = EmailSender(sendgrid_api_key, "pascal.kau@cyje.fr")
+    result = email_sender.send_email("pebaki3047@chysir.com", "Test of SendGrid email sender",
+                                     "This is a personalized email body sent via SendGrid.")
     print(result)

@@ -45,8 +45,8 @@ class EmailTracker:
 
 # Example usage
 if __name__ == "__main__":
-    tracker = EmailTracker("smtp.gmail.com", 587, "your-email@example.com", "your-password")
-    delivery_status = tracker.check_email_delivery("recipient@example.com")
+    tracker = EmailTracker("smtp.gmail.com", 587, "lavache78960@gmail.com", "password")
+    delivery_status = tracker.check_email_delivery("pascal.kau8@gmail.com")
     print(delivery_status)
 
     # Example for API-based tracking
