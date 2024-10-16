@@ -1,37 +1,25 @@
-# response_analyzer.py
 import re
-import textblob
+import nltk
 from textblob import TextBlob
 
+# Ensure necessary NLTK resources are available
+nltk.download('punkt')
 
 class ResponseAnalyzer:
-
     def __init__(self):
-        # Load any NLP models or configurations here if needed
         pass
 
     def classify_response(self, response_text):
-        """
-        Classifies the email response as automated or human based on content analysis.
-        """
-        # Define common patterns for automated responses (e.g., out-of-office, bounce-back)
         automated_patterns = [
-            r"out of office",
-            r"auto[-\s]?reply",
-            r"bounce",
-            r"failed to deliver",
-            r"undeliverable",
-            r"delivery failure",
-            r"no longer with the company",
-            r"moved to a different role",
-            r"thank you for your email",
+            r"out of office", r"auto[-\s]?reply", r"bounce", r"failed to deliver",
+            r"undeliverable", r"delivery failure", r"no longer with the company",
+            r"moved to a different role", r"thank you for your email",
         ]
-
         for pattern in automated_patterns:
             if re.search(pattern, response_text, re.IGNORECASE):
                 return "Automated Response"
 
-        # Perform sentiment analysis or other text analysis to determine authenticity
+        # Perform sentiment analysis
         blob = TextBlob(response_text)
         sentiment = blob.sentiment.polarity
 
@@ -43,9 +31,6 @@ class ResponseAnalyzer:
             return "Neutral Human Response"
 
     def extract_key_phrases(self, response_text):
-        """
-        Extracts key phrases from the response to identify actionable insights.
-        """
         blob = TextBlob(response_text)
         return blob.noun_phrases
 
@@ -54,7 +39,7 @@ class ResponseAnalyzer:
 if __name__ == "__main__":
     analyzer = ResponseAnalyzer()
     response = """
-    Hi, thank you for your email. Unfortunately, I am currently out of the office and will not be able to respond until next week.
+    This is surely spam, if you are human send me a message back.
     """
 
     classification = analyzer.classify_response(response)

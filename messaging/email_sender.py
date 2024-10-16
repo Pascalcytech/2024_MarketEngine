@@ -29,8 +29,8 @@ class EmailSender:
 
 # Example usage
 if __name__ == "__main__":
-    sendgrid_api_key = ""  # Replace with your SendGrid API key
+    sendgrid_api_key = ""
     email_sender = EmailSender(sendgrid_api_key, "pascal.kau@cyje.fr")
-    result = email_sender.send_email("pebaki3047@chysir.com", "Test of SendGrid email sender",
+    result = email_sender.send_email("lavache78960@gmail.com", "Test of SendGrid email sender",
                                      "This is a personalized email body sent via SendGrid.")
     print(result)
