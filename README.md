@@ -13,6 +13,6 @@ email_sender.py : OK
 form_filler.py : OK
 content_extraction.py : OK
 email_tracker.py : Relayed to SendGrid
-response_analyzer.py : Not possible with current proposition
+response_analyzer.py : OK if provided with text
 message_personalization.py : locked behind paywall. No free API tokens for free account anymore
 /test : no need for them.
